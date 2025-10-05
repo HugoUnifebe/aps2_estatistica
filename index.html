@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APS 2 Victor Hugo Sens</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+
+<body style="background: whitesmoke;">
+    <div class="pt-5">
+        <div class="row pb-5">
+            <div class="col-12 text-center">
+                Dashboard de Indicadores Sociais e Demográficos
+                <br>
+                Aluno: Victor Hugo Sens <br>
+                Turma: SI02C
+            </div>
+        </div>
+
+        <div class="row px-5" id="infos">
+
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        let dados = [
+            {
+                nome: "Indicadores de coleta de lixo (%)",
+                informacoes: {
+                    1991: {
+                        br: 77.93,
+                        sc: 84.09,
+                        bq: 87.5,
+                    },
+                    2000: {
+                        br: 91.12,
+                        sc: 96.78,
+                        bq: 99,
+                    },
+                    2010: {
+                        br: 97.02,
+                        sc: 99.31,
+                        bq: 99.66,
+                    },
+                    2020: {
+                        br: 90.5,
+                        sc: 90,
+                        bq: 100,
+                    },
+                }
+            },
+            {
+                nome: "Expectativa de vida (anos)",
+                informacoes: {
+                    2015: {
+                        br: 75.49,
+                        sc: 78.76,
+                        bq: null,
+                    },
+                    2017: {
+                        br: 76.04,
+                        sc: 79.4,
+                        bq: null,
+                    },
+                    2019: {
+                        br: 76.55,
+                        sc: 79.98,
+                        bq: null,
+                    },
+                    2021: {
+                        br: 77.02,
+                        sc: 74.6,
+                        bq: null,
+                    },
+                }
+            },
+            {
+                nome: "Taxa de analfabetismo - 18 anos ou mais de idade (%)",
+                informacoes: {
+                    2015: {
+                        br: 7.73,
+                        sc: 3.01,
+                        bq: null,
+                    },
+                    2017: {
+                        br: 7.09,
+                        sc: 2.69,
+                        bq: null,
+                    },
+                    2019: {
+                        br: 6.61,
+                        sc: 2.25,
+                        bq: null,
+                    },
+                    2021: {
+                        br: 5.45,
+                        sc: 1.83,
+                        bq: null,
+                    },
+                }
+            },
+            {
+                nome: "Matrículas da rede pública no pre-escolar (matriculas)",
+                informacoes: {
+                    2015: {
+                        br: 3635896,
+                        sc: 134836,
+                        bq: 2498,
+                    },
+                    2017: {
+                        br: 3865925,
+                        sc: 153261,
+                        bq: 2773,
+                    },
+                    2019: {
+                        br: 3953633,
+                        sc: 159238,
+                        bq: 2917,
+                    },
+                    2021: {
+                        br: 3949829,
+                        sc: 160923,
+                        bq: 3310,
+                    },
+                    2023: {
+                        br: 4112950,
+                        sc: 171854,
+                        bq: 3439,
+                    },
+                }
+            },
+            {
+                nome: "Matrículas da rede pública no ensino fundamental (matriculas)",
+                informacoes: {
+                    2015: {
+                        br: 27931210,
+                        sc: 837863,
+                        bq: 14913,
+                    },
+                    2017: {
+                        br: 27348080,
+                        sc: 843520,
+                        bq: 14873,
+                    },
+                    2019: {
+                        br: 26923730,
+                        sc: 865262,
+                        bq: 16028,
+                    },
+                    2021: {
+                        br: 26515601,
+                        sc: 900240,
+                        bq: 16969,
+                    },
+                    2023: {
+                        br: 26108208,
+                        sc: 941272,
+                        bq: 17762,
+                    },
+                }
+            },
+            {
+                nome: "Matrículas da rede pública no ensino médio (matriculas)",
+                informacoes: {
+                    2015: {
+                        br: 8076150,
+                        sc: 242166,
+                        bq: 3704,
+                    },
+                    2017: {
+                        br: 7930384,
+                        sc: 221744,
+                        bq: 3594,
+                    },
+                    2019: {
+                        br: 7465891,
+                        sc: 242876,
+                        bq: 4400,
+                    },
+                    2021: {
+                        br: 7770557,
+                        sc: 266537,
+                        bq: 5028,
+                    },
+                    2023: {
+                        br: 7676743,
+                        sc: 267040,
+                        bq: 5119,
+                    },
+                }
+            },
+            {
+                nome: "Taxa de natalidade (‰)",
+                informacoes: {
+                    2015: {
+                        br: 14.76,
+                        sc: 14.26,
+                        bq: null,
+                    },
+                    2017: {
+                        br: 14.08,
+                        sc: 14.05,
+                        bq: null,
+                    },
+                    2019: {
+                        br: 13.56,
+                        sc: 13.68,
+                        bq: null,
+                    },
+                    2021: {
+                        br: 12.55,
+                        sc: 13.15,
+                        bq: null,
+                    },
+                    2023: {
+                        br: 11.98,
+                        sc: 12.21,
+                        bq: null,
+                    },
+                }
+            },
+            {
+                nome: "População (habitantes)",
+                formatarNumeroGrande: true,
+                informacoes: {
+                    2015: {
+                        br: 204450649,
+                        sc: 6819190,
+                        bq: 122775,
+                    },
+                    2017: {
+                        br: 207660929,
+                        sc: 7001161,
+                        bq: 128818,
+                    },
+                    2019: {
+                        br: 210147125,
+                        sc: 7164788,
+                        bq: 135108,
+                    },
+                    2021: {
+                        br: 213317639,
+                        sc: 7338473,
+                        bq: 140597,
+                    },
+                }
+            }
+        ];
+
+        $.each(dados, (i, d) => {
+            let element = $(`<div class="col-12 col-sm-12 col-lg-6 col-xl-4 p-3 info">`);
+            element.html(`
+                <div class="card card-success">
+                    <div class="card-header text-center">
+                        ${d.nome}
+                    </div>
+                    <div class="card-body">
+                        <div class="row text-center anos">
+
+                        </div>
+                        <hr>
+                        <div class="row text-center pt-3">
+                            <div class="col-4">
+                                <img src="images/bandeira_brusque.webp"
+                                    style="background-color: red; height: 90px; width: 90px; object-fit: cover;" alt="">
+                            </div>
+                            <div class="col-4">
+                                <img src="images/bandeira_sc.png"
+                                    style="background-color: red; height: 90px; width: 90px; object-fit: cover;" alt="">
+                            </div>
+                            <div class="col-4">
+                                <img src="images/bandeira_brasil.jpg"
+                                    style="background-color: red; height: 90px; width: 90px; object-fit: cover;" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row text-center pt-1 pb-1 resultados" style="font-weight: bolder;">
+
+                        </div>
+                    </div>
+                </div>
+            `);
+
+            let primeiroAno = true;
+            $.each(d.informacoes, (ano, dados) => {
+                let anoElement = $(`<div class="col">`);
+                anoElement.html(`
+                                    <label>
+                                        <input type="radio" name="indicadores${i}">
+                                        ${ano}
+                                    </label>
+                                `);
+                element.find(`.anos`).append(anoElement);
+                anoElement.on(`change`, e => {
+                    element.find(`.resultados`).html(`
+                            <div class="col-4">${new Intl.NumberFormat('pt-BR').format(dados?.bq ?? '?')}</div>
+                            <div class="col-4">${new Intl.NumberFormat('pt-BR').format(dados?.sc ?? '?')}</div>
+                            <div class="col-4">${new Intl.NumberFormat('pt-BR').format(dados?.br ?? '?')}</div>
+                            `);
+
+                });
+                if (primeiroAno) {
+                    primeiroAno = false;
+                    anoElement.find(`input`).attr('checked', true).prop('checked', true).trigger('change');
+                }
+            });
+
+            $(`#infos`).append(element);
+        });
+
+    </script>
+</body>
+
+</html>
