@@ -277,16 +277,16 @@
 
                         </div>
                         <hr>
-                        <div class="row text-center pt-3">
-                            <div class="col-4">
+                        <div class="row text-center pt-3 imagens">
+                            <div class="col bq">
                                 <img src="images/bandeira_brusque.webp"
                                     style="background-color: red; height: 90px; width: 90px; object-fit: cover;" alt="">
                             </div>
-                            <div class="col-4">
+                            <div class="col sc">
                                 <img src="images/bandeira_sc.png"
                                     style="background-color: red; height: 90px; width: 90px; object-fit: cover;" alt="">
                             </div>
-                            <div class="col-4">
+                            <div class="col br">
                                 <img src="images/bandeira_brasil.jpg"
                                     style="background-color: red; height: 90px; width: 90px; object-fit: cover;" alt="">
                             </div>
@@ -315,10 +315,13 @@
                     element.find(`.anos`).append(anoElement);
                     anoElement.on(`change`, e => {
                         element.find(`.resultados`).html(`
-                            <div class="col-4">${new Intl.NumberFormat('pt-BR').format(dados?.bq ?? '?')}</div>
-                            <div class="col-4">${new Intl.NumberFormat('pt-BR').format(dados?.sc ?? '?')}</div>
-                            <div class="col-4">${new Intl.NumberFormat('pt-BR').format(dados?.br ?? '?')}</div>
+                            <div class="col bq" style="font-size: 20px;">${new Intl.NumberFormat('pt-BR').format(dados?.bq ?? '?')}</div>
+                            <div class="col sc" style="font-size: 20px;">${new Intl.NumberFormat('pt-BR').format(dados?.sc ?? '?')}</div>
+                            <div class="col br" style="font-size: 20px;">${new Intl.NumberFormat('pt-BR').format(dados?.br ?? '?')}</div>
                             `);
+                            if(!dados?.bq){
+                               element.find(`.bq`).hide(); 
+                            }
                         adicionarGrafico(ano, d, i);
                     });
                     if (primeiroAno) {
