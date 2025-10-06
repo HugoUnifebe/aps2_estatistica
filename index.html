@@ -13,10 +13,15 @@
     <div class="pt-5">
         <div class="row pb-5">
             <div class="col-12 text-center">
-                Dashboard de Indicadores Sociais e Demográficos
+                Dashboard de indicadores sociais e demográficos
                 <br>
                 Aluno: Victor Hugo Sens <br>
                 Turma: SI02C
+            </div>
+            <div class="col-12 text-center">
+                <a href="objetivos.html" class="btn btn-primary mt-2" style="text-decoration: underline">
+                    Ver objetivos
+                </a>
             </div>
         </div>
 
@@ -255,9 +260,14 @@
             }
         ];
 
-        $.each(dados, (i, d) => {
-            let element = $(`<div class="col-12 col-sm-12 col-lg-6 col-xl-4 p-3 info">`);
-            element.html(`
+        setTimeout(e => {
+            adicionarDados(dados);
+        }, 100);
+
+        adicionarDados = (dados) => {
+            $.each(dados, (i, d) => {
+                let element = $(`<div class="col-12 col-sm-12 col-lg-6 col-xl-3 p-3 info">`);
+                element.html(`
                 <div class="card card-success">
                     <div class="card-header text-center">
                         ${d.nome}
@@ -290,34 +300,78 @@
                 </div>
             `);
 
-            let primeiroAno = true;
-            $.each(d.informacoes, (ano, dados) => {
-                let anoElement = $(`<div class="col">`);
-                anoElement.html(`
+                console.log('colando elemento');
+                $(`#infos`).append(element);
+
+                let primeiroAno = true;
+                $.each(d.informacoes, (ano, dados) => {
+                    let anoElement = $(`<div class="col">`);
+                    anoElement.html(`
                                     <label>
                                         <input type="radio" name="indicadores${i}">
                                         ${ano}
                                     </label>
                                 `);
-                element.find(`.anos`).append(anoElement);
-                anoElement.on(`change`, e => {
-                    element.find(`.resultados`).html(`
+                    element.find(`.anos`).append(anoElement);
+                    anoElement.on(`change`, e => {
+                        element.find(`.resultados`).html(`
                             <div class="col-4">${new Intl.NumberFormat('pt-BR').format(dados?.bq ?? '?')}</div>
                             <div class="col-4">${new Intl.NumberFormat('pt-BR').format(dados?.sc ?? '?')}</div>
                             <div class="col-4">${new Intl.NumberFormat('pt-BR').format(dados?.br ?? '?')}</div>
                             `);
-
+                        adicionarGrafico(ano, d, i);
+                    });
+                    if (primeiroAno) {
+                        primeiroAno = false;
+                        console.log('trigger');
+                        anoElement.find(`input`).attr('checked', true).prop('checked', true).trigger('change');
+                    }
                 });
-                if (primeiroAno) {
-                    primeiroAno = false;
-                    anoElement.find(`input`).attr('checked', true).prop('checked', true).trigger('change');
-                }
+
+
             });
+        }
 
-            $(`#infos`).append(element);
-        });
 
+        adicionarGrafico = (ano, dados, i) => {
+            let chart_id = `chart_div_${i}`;
+            let chart_element = $(`#${chart_id}`);
+
+            if (!$(`#${chart_id}`).is(":visible")) {
+                let element = $(`<div class="col-12 col-sm-12 col-lg-6 col-xl-3 p-3 grafico">`);
+                element.html(`
+                    <div class="card-body w-100 h-100" style="background: white;">
+                        <div id="${chart_id}" class="w-100 h-100">
+                        </div>
+                    <div>
+                        `);
+                $(`#infos`).append(element);
+                chart_element = $(`#${chart_id}`);
+                google.charts.load('current', { 'packages': ['corechart'] });
+            }
+
+            google.charts.setOnLoadCallback(drawChart);
+
+            function drawChart() {
+                let data = new google.visualization.DataTable();
+                data.addColumn('string', 'País');
+                data.addColumn('number', 'Valor');
+                data.addRows([
+                    ['Brasil', dados?.informacoes?.[ano]?.br ?? 0],
+                    ['Santa Catarina', dados?.informacoes?.[ano]?.sc ?? 0],
+                    ['Brusque', dados?.informacoes?.[ano]?.bq ?? 0],
+                ]);
+                let options = {
+                    'title': dados.nome,
+                    'width': chart_element.width(),
+                    'height': chart_element.height(),
+                };
+                let chart = new google.visualization.BarChart(document.getElementById(chart_id));
+                chart.draw(data, options);
+            }
+        }
     </script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </body>
 
 </html>
